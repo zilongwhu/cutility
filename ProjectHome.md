@@ -1,0 +1,1 @@
+all kinds of utility in c and c++.
