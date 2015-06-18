@@ -59,4 +59,38 @@
 #define DEBUG_CATCH(fmt, args...) CATCH_ALL(P_DEBUG, fmt, ##args)
 #endif
 
+#ifndef CATCH_ALL_EXC
+#define CATCH_ALL_EXC(stats, logger, fmt, args...) \
+    catch (std::exception &e)\
+    {\
+        logger("std::exception catched[%s], " fmt, e.what(), ##args);\
+        stats;\
+    }\
+    catch (...)\
+    {\
+        logger("unknown exception catched, " fmt, ##args);\
+        stats;\
+    }
+#endif
+
+#ifndef FATAL_CATCH_EXC
+#define FATAL_CATCH_EXC(stats, fmt, args...) CATCH_ALL_EXC(stats, P_FATAL, fmt, ##args)
+#endif
+
+#ifndef WARNING_CATCH_EXC
+#define WARNING_CATCH_EXC(stats, fmt, args...) CATCH_ALL_EXC(stats, P_WARNING, fmt, ##args)
+#endif
+
+#ifndef NOTICE_CATCH_EXC
+#define NOTICE_CATCH_EXC(stats, fmt, args...) CATCH_ALL_EXC(stats, P_NOTICE, fmt, ##args)
+#endif
+
+#ifndef TRACE_CATCH_EXC
+#define TRACE_CATCH_EXC(stats, fmt, args...) CATCH_ALL_EXC(stats, P_TRACE, fmt, ##args)
+#endif
+
+#ifndef DEBUG_CATCH_EXC
+#define DEBUG_CATCH_EXC(stats, fmt, args...) CATCH_ALL_EXC(stats, P_DEBUG, fmt, ##args)
+#endif
+
 #endif
