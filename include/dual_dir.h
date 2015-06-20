@@ -10,6 +10,7 @@ void clear_dir(const std::string &path);
 class DualDir
 {
     public:
+        DualDir(): m_path("/DualDir_path_not_initialized"), m_curr(0) { }
         /* 初始化，传入路径 */
         int init(const std::string &path);
         /* 获取当前使用目录路径 */

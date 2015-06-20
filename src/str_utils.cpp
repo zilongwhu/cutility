@@ -2,10 +2,10 @@
 #define __STDC_LIMIT_MACROS
 #endif
 
-#include <errno.h>
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
+#include <errno.h>
 #include "log_utils.h"
 #include "str_utils.h"
 
