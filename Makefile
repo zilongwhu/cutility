@@ -1,4 +1,4 @@
-objects=src/dual_dir.o src/encode_util.o src/json2pb.o src/meminfo.o src/str_utils.o src/fsint.o
+objects=src/dual_dir.o src/encode_util.o src/json2pb.o src/pb2json.o src/meminfo.o src/str_utils.o src/fsint.o
 .PHONY:all
 all: libutils.a
 libutils.a: $(objects) src/cJSON.o
