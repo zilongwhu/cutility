@@ -174,8 +174,8 @@ static bool _json2pb(Message &msg, cJSON *json)
         }
         if (NULL == field)
         {
-            P_WARNING("failed to get field by name[%s]", chld->string);
-            return false;
+            P_TRACE("failed to get field by name[%s]", chld->string);
+            continue;
         }
         if (field->is_repeated())
         {
