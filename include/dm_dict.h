@@ -11,7 +11,7 @@ class DmDict
   public:
     struct Entry
     {
-      uint32_t beg;
+      int32_t beg;
       uint32_t len;
       TrieData data;
     };
@@ -29,6 +29,7 @@ class DmDict
     bool AddWithMerge(const char *key, TrieData data);
   public:
     bool MatchAll(const char *str, std::vector<Entry> &entries) const;
+    bool MatchAny(const char *str, Entry &entry) const;
   private:
     bool TryInit();
   private:

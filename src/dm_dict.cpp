@@ -118,7 +118,7 @@ bool DmDict::MatchAll(const char *str, std::vector<Entry> &entries) const
 {
   entries.clear();
   if (!str) return true;
-  if (!trie_) return false;
+  if (!trie_) return true;
   int len = strlen(str);
   AlphaMap *am = trie_map(trie_);
   AlphaChar *ac = alpha_map_trie_to_char_str(am, (const TrieChar *)str);
@@ -150,6 +150,54 @@ bool DmDict::MatchAll(const char *str, std::vector<Entry> &entries) const
         entry.len = j - i + 1;
         entry.data = trie_state_get_terminal_data(bak);
         entries.push_back(entry);
+      }
+    }
+  }
+  trie_state_free(bak);
+  trie_state_free(st);
+  ::free(ac);
+  return true;
+}
+
+bool DmDict::MatchAny(const char *str, Entry &ent) const
+{
+  ent.beg = -1;
+  ent.len = 0;
+  ent.data = 0;
+  if (!str) return true;
+  if (!trie_) return true;
+  int len = strlen(str);
+  AlphaMap *am = trie_map(trie_);
+  AlphaChar *ac = alpha_map_trie_to_char_str(am, (const TrieChar *)str);
+  TrieState *st = trie_root(trie_);
+  if (!st) {
+    ::free(ac);
+    P_WARNING("trie_root failed");
+    return false;
+  }
+  TrieState *bak = trie_state_clone(st);
+  if (!bak) {
+    trie_state_free(st);
+    ::free(ac);
+    P_WARNING("trie_state_clone failed");
+    return false;
+  }
+  Entry entry;
+  for (int i = 0; i < len && ent.beg < 0; ++i) {
+    entry.beg = i;
+    trie_state_rewind(st);
+    for (int j = i; j < len; ++j) {
+      if (trie_state_is_walkable(st, ac[j])) {
+        trie_state_walk(st, ac[j]);
+      } else {
+        break;
+      }
+      if (trie_state_is_terminal(st)) {
+        trie_state_copy(bak, st);
+        entry.len = j - i + 1;
+        entry.data = trie_state_get_terminal_data(bak);
+        ent = entry; /* matching a entry */
+        break;
       }
     }
   }
