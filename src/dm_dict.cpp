@@ -1,6 +1,7 @@
 #include <string.h>
+#include <stdlib.h>
 #include "dm_dict.h"
-#include "slog_manager.h"
+#include "log_utils.h"
 
 extern "C"
 {
